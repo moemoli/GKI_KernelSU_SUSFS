@@ -17,8 +17,9 @@ on:
         required: true
         type: string
       sub_level:
-        required: true
+        required: false
         type: string
+        default: lts
       os_patch_level:
         required: true
         type: string
