@@ -435,7 +435,7 @@ jobs:
           fi
 
           # 取消drviers/soc/oplus的编译
-          sed '/source "drivers/soc/oplus/storage/Kconfig"/d' ./common/drivers/soc/Kconfig
+          sed -i 's/source "drivers\/soc\/oplus\/storage\/Kconfig"//' ./common/drivers/soc/Kconfig
           
           if [ -f "build/build.sh" ]; then
             sed -i 's/-dirty//' ./common/scripts/setlocalversion
