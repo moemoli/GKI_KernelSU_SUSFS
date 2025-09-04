@@ -439,7 +439,12 @@ jobs:
           
           if [ -f "build/build.sh" ]; then
             sed -i 's/-dirty//' ./common/scripts/setlocalversion
+            # 取消drviers/soc/oplus的编译
+            sed -i 's/obj-y				+= oplus\/storage\///' ./common/drivers/soc/Makefile
+            
           else
+            # 取消drviers/soc/oplus的编译
+            sed -i 's/source "drivers\/soc\/oplus\/storage\/Kconfig"//' ./common/drivers/soc/Kconfig
             sed -i '/^[[:space:]]*"protected_exports_list"[[:space:]]*:[[:space:]]*"android\/abi_gki_protected_exports_aarch64",$/d' ./common/BUILD.bazel
             rm -rf ./common/android/abi_gki_protected_exports_*
             sed -i "/stable_scmversion_cmd/s/-maybe-dirty//g" ./build/kernel/kleaf/impl/stamp.bzl
