@@ -433,6 +433,9 @@ jobs:
           if [ "${{ inputs.kernel_version }}" = "6.1" ] || [ "${{ inputs.kernel_version }}" = "6.6" ]; then
             sed -i -e "s|\$(preempt-flag-y) \"\$(build-timestamp)\"|\$(preempt-flag-y) \"$CURRENT_TIME\"|" ./common/init/Makefile
           fi
+
+          # 取消drviers/soc/oplus的编译
+          sed '/source "drivers/soc/oplus/storage/Kconfig"/d' ./common/drivers/soc/Kconfig
           
           if [ -f "build/build.sh" ]; then
             sed -i 's/-dirty//' ./common/scripts/setlocalversion
