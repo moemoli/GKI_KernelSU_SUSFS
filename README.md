@@ -1,7 +1,7 @@
 <div align="center">
 
 # GKI KernelSU SUSFS
-# 🏮 2026 🐎 Happy New Year! 🏮
+### 🏮 2026 🐎 Happy New Year! 🏮
 
 **自动化构建 GKI 内核 | 集成 KernelSU + SUSFS**
 
@@ -18,32 +18,22 @@
 
 ## 🚀 快速导航
 
-<table>
-<tr>
-<td align="center" width="50%">
-
-**📖 文档**
-
-[GitHub Wiki](https://github.com/zzh20188/GKI_KernelSU_SUSFS/wiki)
-
-</td>
-<td align="center" width="50%">
-
-**📥 下载**
-
-[Releases](https://github.com/zzh20188/GKI_KernelSU_SUSFS/releases)
-
-</td>
-</tr>
-</table>
+- 📖 [文档](https://github.com/zzh20188/GKI_KernelSU_SUSFS/wiki)
+- 📥 [下载](https://github.com/zzh20188/GKI_KernelSU_SUSFS/releases)
+- 🔰 [教程](https://zzh20188.github.io/GKI_KernelSU_SUSFS/guide.html)
 
 ---
 
 ## ⚠️ 兼容性提醒
 
 > **注意：** 目前不支持一加 ColorOS 14、15，刷入后可能需要清除数据开机。
+>
+> **SUKISU最新版:** 已经恢复构建，但不兼容6.12
+>
+> 增加了了老版本SukiSU的构建，若使用老版本内核最好搭配同样版本的管理器，老版本完全使用以前的SUKISU和SUSFS代码，因此不包含最近的特性或bug
+> 
+> <img width="296" height="152" alt="image" src="https://github.com/user-attachments/assets/e60316c3-c760-4178-a4c8-b94d0ef0b5b2" />
 
-> 方向：可能会兼容几个特定的热门机型6.1-6.6机型进行更新，可到issues反馈
 
 
 ---
@@ -53,29 +43,36 @@
 详细说明请查阅 [**GitHub Wiki（中英双语）**](https://github.com/zzh20188/GKI_KernelSU_SUSFS/wiki)
 
 Wiki 涵盖内容：
+- [**🔰 教程**](https://zzh20188.github.io/GKI_KernelSU_SUSFS/guide.html)
 - 📥 下载/刷入内核
 - 💡 使用技巧 Tips
 - 🆘 救砖指南
 - 📊 内核版本兼容性说明
-- **🔧 [Fork 与自定义编译指南](https://github.com/zzh20188/GKI_KernelSU_SUSFS/wiki/Fork%E4%B8%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%AF%91%E6%8C%87%E5%8D%97)** - 学习如何 Fork 仓库并编译自己的内核
-- 🧩 自定义构建新手指南
-   - 你只需要查看 https://zzh20188.github.io/GKI_KernelSU_SUSFS/ ，找到你需要编译的内核的参数，Action处选择构建自定义版本的工作流填入即可。***此外这里还提供了自定义构建时间转换***
 
 ---
 
-## ❗构建失败常见原因（SukiSU / SUSFS 更新不同步）
+## 🧪 Droidspaces 容器支持（实验性）
 
-当以下两个分支的更新节奏不一致时，构建可能失败：
+> **实验性功能：** 不保证所有 GKI 版本均能成功构建或启动，刷入前请务必备份 Boot 镜像。
+>
+> **TIPS：** 工作流使用的是 [Droidspaces](https://github.com/ravindu644/Droidspaces-OSS) 的 [官方补丁](https://github.com/ravindu644/Droidspaces-OSS/tree/main/Documentation/resources/kernel-patches/GKI) ，如有更好的补丁可以提个issues，此外由于存在三个补丁，或许需要反复试验以确保其中一个适配你的机型，请根据他人或实际经验来选择。
 
-- SukiSU builtin 分支：<https://github.com/SukiSU-Ultra/SukiSU-Ultra/tree/builtin>
-- SUSFS gki-android14-6.1 分支：<https://gitlab.com/simonpunk/susfs4ksu/-/tree/gki-android14-6.1?ref_type=heads>
+[Droidspaces](https://github.com/ravindu644/Droidspaces-OSS) 是一个轻量级的 Linux 容器工具，可以在 Android 上运行完整的 Linux 环境（支持 systemd、OpenRC 等），用于搭建开发环境、运行服务器等场景。
 
-例如：SUSFS 刚更新了新提交，但 SukiSU 的 `builtin` 分支还没跟进适配，这时打补丁/编译就容易失败。
+**支持范围：** 5.10 / 5.15 / 6.1 / 6.6 / 6.12
 
-如以下情况，只能等待SukiSU跟进，完成与SUSFS最新提交的适配。
+**使用方式：** 在手动触发构建时，选择 `Droidspaces 容器支持` 选项：
 
-<img src="assets/sukisu_eg1.png" alt="SukiSU builtin 更新记录" width="80%">
-<img src="assets/susfs_eg1.png" alt="SUSFS gki-android14-6.1 更新记录" width="80%">
+| 选项 | 说明 |
+|:---:|:---|
+| `off` | 关闭（默认） |
+| `678` | 使用 6_7_8 槽位补丁（推荐） |
+| `123` | 使用 1_2_3 槽位补丁（备用） |
+| `345` | 使用 3_4_5 槽位补丁（备用） |
+
+> **提示：** 6.12 内核仅有一个补丁，选择任意非关闭选项即可。
+
+**如果构建失败或刷入后 bootloop：** 可尝试切换到其他槽位补丁（如 678 → 123 或 345），不同内核子版本可能适用不同的补丁。
 
 ## 🔧 自定义提交配置
 通过 [`config/config`](config/config) 文件可以指定 SUSFS 和 SukiSU 使用特定的 commit。
@@ -91,8 +88,8 @@ Wiki 涵盖内容：
 
 **如何获取提交哈希？**
 
-- SUSFS: https://gitlab.com/simonpunk/susfs4ksu
-- SukiSU: https://github.com/SukiSU-Ultra/SukiSU-Ultra/commits/builtin/
+- SUSFS: [susfs4ksu](https://gitlab.com/simonpunk/susfs4ksu)
+- SukiSU: [SukiSU-Ultra commits/builtin](https://github.com/SukiSU-Ultra/SukiSU-Ultra/commits/builtin/)
 
 以 SUSFS 为例，先选择分支，再复制对应提交的哈希值：
 

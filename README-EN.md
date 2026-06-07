@@ -1,7 +1,7 @@
 <div align="center">
 
 # GKI KernelSU SUSFS
-# 🏮 2026 🐎 Happy New Year! 🏮
+### 🏮 2026 🐎 Happy New Year! 🏮
 
 **Automated GKI Kernel Builds | KernelSU + SUSFS Integrated**
 
@@ -18,24 +18,9 @@ English | [**简体中文**](README.md)
 
 ## 🚀 Quick Navigation
 
-<table>
-<tr>
-<td align="center" width="50%">
-
-**📖 Documentation**
-
-[GitHub Wiki](https://github.com/zzh20188/GKI_KernelSU_SUSFS/wiki)
-
-</td>
-<td align="center" width="50%">
-
-**📥 Downloads**
-
-[Releases](https://github.com/zzh20188/GKI_KernelSU_SUSFS/releases)
-
-</td>
-</tr>
-</table>
+- 📖 [Documentation](https://github.com/zzh20188/GKI_KernelSU_SUSFS/wiki)
+- 📥 [Downloads](https://github.com/zzh20188/GKI_KernelSU_SUSFS/releases)
+- 🔰 [Tutorial](https://zzh20188.github.io/GKI_KernelSU_SUSFS/guide.html)
 
 ---
 
@@ -43,7 +28,7 @@ English | [**简体中文**](README.md)
 
 > **Note:** OnePlus ColorOS 14/15 is currently not supported. A data wipe may be required after flashing.
 
-> Direction: We may add compatibility for a few specific popular 6.1-6.6 models in future updates. Feel free to report via Issues.
+> **rekernel feature (beta): rekernel feature is now supported (currently in beta)**
 
 
 ---
@@ -53,29 +38,36 @@ English | [**简体中文**](README.md)
 For detailed instructions, please refer to the [**GitHub Wiki (bilingual CN/EN)**](https://github.com/zzh20188/GKI_KernelSU_SUSFS/wiki)
 
 Wiki covers:
+- [**🔰 Tutorial**](https://zzh20188.github.io/GKI_KernelSU_SUSFS/guide.html)
 - 📥 Download / Flash kernel
 - 💡 Tips & Tricks
 - 🆘 Brick Recovery Guide
 - 📊 Kernel Version Compatibility
-- **🔧 [Fork & Custom Build Guide](https://github.com/zzh20188/GKI_KernelSU_SUSFS/wiki/Fork%E4%B8%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%AF%91%E6%8C%87%E5%8D%97)** - Learn how to Fork the repo and build your own kernel
-- 🧩 Custom Build Beginner's Guide
-   - Just visit https://zzh20188.github.io/GKI_KernelSU_SUSFS/, find the parameters for the kernel you want to build, then go to Actions and select the custom build workflow to fill them in. ***A custom build timezone converter is also provided here.***
 
 ---
 
-## ❗ Common Build Failure Cause (SukiSU / SUSFS Out of Sync)
+## 🧪 Droidspaces Container Support (Experimental)
 
-When the following two branches update at different paces, builds may fail:
+> **Experimental feature:** Successful build and boot is not guaranteed across all GKI versions. Always back up your boot image before flashing.
+>
+> **TIPS:** The workflow uses the [official Droidspaces patches](https://github.com/ravindu644/Droidspaces-OSS/tree/main/Documentation/resources/kernel-patches/GKI) from [Droidspaces](https://github.com/ravindu644/Droidspaces-OSS). If you have better patches, feel free to open an issue. Since there are three patch variants, you may need to test them repeatedly to find one that fits your device. Choose based on other users' feedback or your own experience.
 
-- SukiSU builtin branch: <https://github.com/SukiSU-Ultra/SukiSU-Ultra/tree/builtin>
-- SUSFS gki-android14-6.1 branch: <https://gitlab.com/simonpunk/susfs4ksu/-/tree/gki-android14-6.1?ref_type=heads>
+[Droidspaces](https://github.com/ravindu644/Droidspaces-OSS) is a lightweight Linux containerization tool that lets you run full Linux environments (with systemd, OpenRC, etc.) on Android — useful for development, running servers, and more.
 
-For example: SUSFS just pushed a new commit, but SukiSU's `builtin` branch hasn't caught up yet — patching/compiling will likely fail.
+**Supported versions:** 5.10 / 5.15 / 6.1 / 6.6 / 6.12
 
-In such cases, you can only wait for SukiSU to follow up and complete adaptation with the latest SUSFS commit.
+**Usage:** When triggering a build manually, select the `Droidspaces` option:
 
-<img src="assets/sukisu_eg1.png" alt="SukiSU builtin update history" width="80%">
-<img src="assets/susfs_eg1.png" alt="SUSFS gki-android14-6.1 update history" width="80%">
+| Option | Description |
+|:---:|:---|
+| `off` | Disabled (default) |
+| `678` | Use 6_7_8 slot patch (recommended) |
+| `123` | Use 1_2_3 slot patch (fallback) |
+| `345` | Use 3_4_5 slot patch (fallback) |
+
+> **Note:** Kernel 6.12 has only one patch — any non-off option will use it.
+
+**If the build fails or bootloops after flashing:** Try switching to a different slot patch (e.g. 678 → 123 or 345). Different kernel sub-levels may require different patches.
 
 ## 🔧 Custom Commit Pinning
 Use the [`config/config`](config/config) file to pin SUSFS and SukiSU to specific commits.
@@ -91,8 +83,8 @@ A commit is a hash string representing the state of a repository at a specific p
 
 **How to get a commit hash?**
 
-- SUSFS: https://gitlab.com/simonpunk/susfs4ksu
-- SukiSU: https://github.com/SukiSU-Ultra/SukiSU-Ultra/commits/builtin/
+- SUSFS: [susfs4ksu](https://gitlab.com/simonpunk/susfs4ksu)
+- SukiSU: [SukiSU-Ultra commits/builtin](https://github.com/SukiSU-Ultra/SukiSU-Ultra/commits/builtin/)
 
 Taking SUSFS as an example, first select the branch, then copy the commit hash:
 
